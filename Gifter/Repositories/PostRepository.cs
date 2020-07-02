@@ -19,6 +19,7 @@ namespace Gifter.Repositories
         {
             return _context.Post
                            .Include(p => p.UserProfile)
+                           .Include(p => p.Comment)
                            .ToList();
         }
 
@@ -26,6 +27,7 @@ namespace Gifter.Repositories
         {
             return _context.Post
                            .Include(p => p.UserProfile)
+                           .Include(p => p.Comment)
                             .FirstOrDefault(p => p.Id == id);
         }
 
@@ -33,6 +35,7 @@ namespace Gifter.Repositories
         public List<Post> GetByUserProfileId(int id)
         {
             return _context.Post.Include(p => p.UserProfile)
+                                 .Include(p => p.Comment)
                             .Where(p => p.UserProfileId == id)
                             .OrderBy(p => p.Title)
                             .ToList();
