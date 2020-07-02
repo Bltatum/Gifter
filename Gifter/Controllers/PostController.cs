@@ -2,6 +2,7 @@
 using Gifter.Data;
 using Gifter.Repositories;
 using Gifter.Models;
+using System.Collections.Generic;
 
 namespace Gifter.Controllers
 {
@@ -64,6 +65,20 @@ namespace Gifter.Controllers
             _postRepository.Delete(id);
             return NoContent();
         }
+
+        [HttpGet("search")]
+        public IActionResult Search(string q, bool sortDesc)
+        {
+            return Ok(_postRepository.Search(q, sortDesc));
+        }
+
+
+        [HttpGet("hottest")]
+        public IActionResult hottest(System.DateTime since)
+        {
+            return Ok(_postRepository.Hottest(since));
+        }
+
 
 
     }
