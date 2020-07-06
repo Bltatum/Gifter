@@ -24,6 +24,13 @@ Form {
   margin: 2rem;
   height: 30rem;
   border-radius: 1rem;
+  
+}
+
+.searchBar{
+  height: 2rem;
+  width: 10rem;
+  margin: 1rem;
 }
 
 

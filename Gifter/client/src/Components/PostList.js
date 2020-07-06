@@ -15,8 +15,8 @@ const PostList = () => {
   }, []);
 
   return (
-    <div className="container">
-      <div className="row justify-content-center ">
+    <div className="row justify-content-center">
+      <div className="postList">
       <SearchBar setTerms={setTerms} />
         <SearchResults searchTerms={searchTerms} />
         <div className="cards-column">

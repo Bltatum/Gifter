@@ -5,7 +5,7 @@ export const SearchBar = ({ setTerms }) => {
 
   return (
     
-      <div className="row justify-content-center" >
+      <div className="searchBar" >
         <input
           onKeyUp={(e) => setTerms(e.target.value)}
           type="text"

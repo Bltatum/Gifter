@@ -2,6 +2,7 @@
 import { PostContext } from "../Providers/PostProvider";
 import React, { useRef, useContext } from "react";
 import { Form } from "reactstrap";
+import { useHistory } from "react-router-dom";
 
 const cancelForm = () => { 
   document.getElementById("addPostForm").reset();
@@ -15,6 +16,8 @@ const imageUrl = useRef()
 const caption = useRef()
 const userProfileId = useRef()
 
+const history = useHistory();
+
 const newPost = ()=>{
 addPost({
     title: title.current.value,
@@ -22,7 +25,11 @@ addPost({
     caption: caption.current.value,
     userProfileId: parseInt(userProfileId.current.value),
     dateCreated: new Date()
-})
+    
+}).then((p) => {
+  // Navigate the user back to the home route
+  history.push("/");
+});
 };
 
 return (
