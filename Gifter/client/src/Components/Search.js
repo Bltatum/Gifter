@@ -5,12 +5,8 @@ import Post from "./Post";
 
 export const SearchResults = ({ searchTerms }) => {
   const { posts } = useContext(PostContext);
-
   const [filteredPost, setFiltered] = useState([]);
-  const [selectedPost, setPost] = useState({
-    post: {},
-  });
-
+  
   useEffect(() => {
     if (searchTerms !== "") {
       const subset = posts.filter((post) =>
