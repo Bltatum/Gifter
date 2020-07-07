@@ -3,9 +3,10 @@ using Gifter.Data;
 using Gifter.Repositories;
 using Gifter.Models;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Gifter.Controllers
-{
+{   [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class PostController : ControllerBase

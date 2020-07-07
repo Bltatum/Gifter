@@ -12,6 +12,9 @@ namespace Gifter.Models
         public string Name { get; set; }
 
         [Required]
+        public string FirebaseUserId { get; set; }
+
+        [Required]
         public string Email { get; set; }
 
         public string ImageUrl { get; set; }
