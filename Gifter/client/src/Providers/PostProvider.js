@@ -1,5 +1,6 @@
 import React, { useState , useContext } from "react";
 import {UserProfileContext} from "./UserProfileProvider"
+import "firebase/auth";
 
 export const PostContext = React.createContext();
 
@@ -11,8 +12,8 @@ export const PostProvider = (props) => {
 
 
   const getAllPosts = () => 
-  getToken().then((token) =>
-    fetch(apiUrl, {
+      getToken().then((token) =>
+       fetch(apiUrl, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`
@@ -42,13 +43,37 @@ export const PostProvider = (props) => {
   .then(setPosts)
   };
 
-  const getPost = (id) => {
-    return fetch(`/api/post/${id}`).then((res) => res.json());
-};
+  const getPost = (id) => 
+  getToken().then((token)=>
+  fetch(`/api/post/${id}`, {
+    method: "Get",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  }).then(resp => {
+    if (resp.ok) {
+      return resp.json();
+    }
+    throw new Error("Unauthorized");
+  }));
 
-const getUserPost = (id) => {
-  return fetch(`/api/post/getbyuser/${id}`).then((res) => res.json());
-};
+const getUserPost = (id) => 
+getToken().then((token)=>
+  fetch(`/api/post/getbyuser/${id}`, {
+    method: "Get",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  }).then(resp => {
+    if (resp.ok) {
+      return resp.json();
+    }
+    throw new Error("Unauthorized");
+  }));
+  
+
 
   return (
     <PostContext.Provider value={{ posts, getAllPosts, addPost, searchPosts, getPost, getUserPost }}>

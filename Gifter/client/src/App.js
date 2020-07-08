@@ -6,6 +6,7 @@ import Header from "./Components/Header"
 import { BrowserRouter as Router } from "react-router-dom";
 import { UserProfileProvider } from "./Providers/UserProfileProvider";
 
+
 function App() {
   return (
     <div className="App">

@@ -4,6 +4,7 @@ using Gifter.Repositories;
 using Gifter.Models;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace Gifter.Controllers
 {   [Authorize]
@@ -11,10 +12,14 @@ namespace Gifter.Controllers
     [ApiController]
     public class PostController : ControllerBase
     {
+        
         private readonly PostRepository _postRepository;
+        private readonly UserProfileRepository _userProfileRepository;
         public PostController(ApplicationDbContext context)
         {
             _postRepository = new PostRepository(context);
+            _userProfileRepository = new UserProfileRepository(context);
+
         }
 
         [HttpGet]
@@ -38,14 +43,6 @@ namespace Gifter.Controllers
         public IActionResult GetByUser(int id)
         {
             return Ok(_postRepository.GetByUserProfileId(id));
-        }
-
-
-        [HttpPost]
-        public IActionResult Post(Post post)
-        {
-            _postRepository.Add(post);
-            return CreatedAtAction("Get", new { id = post.Id }, post);
         }
 
         [HttpPut("{id}")]
@@ -78,6 +75,22 @@ namespace Gifter.Controllers
         public IActionResult hottest(System.DateTime since)
         {
             return Ok(_postRepository.Hottest(since));
+        }
+
+        [HttpPost]
+        public IActionResult Post(Post post)
+        {
+            var currentUserProfile = GetCurrentUserProfile();
+
+            post.UserProfileId = currentUserProfile.Id;
+            _postRepository.Add(post);
+            return CreatedAtAction(nameof(Get), new { id = post.Id }, post);
+        }
+
+        private UserProfile GetCurrentUserProfile()
+        {
+            var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return _userProfileRepository.GetByFirebaseUserId(firebaseUserId);
         }
 
 

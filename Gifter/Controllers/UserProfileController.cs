@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Gifter.Controllers
 {   
-    
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UserProfileController : ControllerBase
@@ -51,24 +51,24 @@ namespace Gifter.Controllers
         }
 
 
-        [HttpGet("{id}")]
-        public IActionResult Get(int id)
-        {
-            var userProfile = _userProfileRepository.GetById(id);
-            if (userProfile == null)
-            {
-                return NotFound();
-            }
-            return Ok(userProfile);
-        }
+        //[HttpGet("{id}")]
+        //public IActionResult Get(int id)
+        //{
+        //    var userProfile = _userProfileRepository.GetById(id);
+        //    if (userProfile == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    return Ok(userProfile);
+        //}
 
 
-        [HttpPost]
-        public IActionResult Post(UserProfile userProfile)
-        {
-            _userProfileRepository.Add(userProfile);
-            return CreatedAtAction("Get", new { id = userProfile.Id }, userProfile);
-        }
+        //[HttpPost]
+        //public IActionResult Post(UserProfile userProfile)
+        //{
+        //    _userProfileRepository.Add(userProfile);
+        //    return CreatedAtAction("Get", new { id = userProfile.Id }, userProfile);
+        //}
 
         [HttpPut("{id}")]
         public IActionResult Put(int id, UserProfile userProfile)
