@@ -3,6 +3,7 @@ using Gifter.Repositories;
 using Microsoft.EntityFrameworkCore.Update;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Xunit;
 
@@ -53,18 +54,18 @@ namespace Gifter.Tests
             var repo = new PostRepository(_context);
             var results = repo.Search("", true);
 
-            Assert.Equal(3, results.Count);
+            Assert.Equal(4, results.Count);
             Assert.Equal(mostRecentTitle, results[0].Title);
         }
 
         [Fact]
         public void Search_Can_Return_Most_Recent_Last()
         {
-            var mostRecentTitle = "The Dude";
+            var mostRecentTitle = "A Test";
             var repo = new PostRepository(_context);
             var results = repo.Search("", false);
 
-            Assert.Equal(3, results.Count);
+            Assert.Equal(4, results.Count);
             Assert.Equal(mostRecentTitle, results[2].Title);
         }
 
@@ -84,8 +85,10 @@ namespace Gifter.Tests
         }
 
         //test for getByUserId
+
+        //The Posts in the result set should be ordered alphabetically by title
         [Fact]
-        public void Post_Are_Ordered_Alphabetically()
+        public void Post_Are_Ordered_Alphabetically_By_Title()
         {   
            
             var user = 2;
@@ -111,12 +114,46 @@ namespace Gifter.Tests
         [Fact]
         public void Post_Belong_To_User()
         { 
-            var user = 2;
+         
             var repo = new PostRepository(_context);
-            var results = repo.GetByUserProfileId(3);
+            var results = repo.GetByUserProfileId(5);
 
-            Assert.NotEqual(user, results[0].UserProfileId);
-            Assert.Null(results);
+            Assert.NotNull(results);
+            Assert.Empty(results);
+        }
+
+        //Get most recent Post
+        //If numResults is (?), then the result set should only have (?) Post in it
+        [Fact]
+        public void Get_Most_Recent_Post_numResults_1()
+        {
+            var repo = new PostRepository(_context);
+            var result = repo.GetMostRecent(3);
+
+            Assert.Equal(3, result.Count);
+
+        }
+        [Fact]
+        public void If_Num_Results_Is_0()
+        {
+            var repo = new PostRepository(_context);
+            var result = repo.GetMostRecent(0);
+
+            Assert.Equal(0, result.Count);
+            Assert.NotNull(result);
+            Assert.Empty(result);
+
+        }
+
+        [Fact]
+        public void Always_Most_Recent_Post()
+        {
+            var repo = new PostRepository(_context);
+            var result = repo.GetMostRecent(4);
+            var expected = "The Dude";
+
+            Assert.Equal(expected, result[0].Title);
+
         }
 
         // Add sample data

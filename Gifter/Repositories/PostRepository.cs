@@ -88,6 +88,15 @@ namespace Gifter.Repositories
             _context.SaveChanges();
         }
 
+        //Test Driven development
+        public List<Post> GetMostRecent(int numResults)
+        {
+            return _context.Post
+                          .Take(numResults)
+                          .OrderByDescending(p => p.DateCreated)
+                          .ToList();
+        }
+
 
     }
 }
